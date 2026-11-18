@@ -1,127 +1,78 @@
-
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A letter from my heart</title>
 
-    <title>A Letter From My Heart ❤️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Inter:wght@500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <canvas id="petals"></canvas>
-    <section class="intro" id="intro">
+<canvas id="petals" aria-hidden="true"></canvas>
 
-        <button class="big-heart" id="start">
-            <span>❤</span>
-        </button>
+<!-- Màn hình trái tim -->
+<section class="intro" id="intro">
+    <button class="big-heart" id="start">
+        <span>&#10084;</span>
+    </button>
+    <p class="intro-hint">Touch the heart to begin</p>
+</section>
 
-        <p class="intro-hint">
-            Touch the heart to begin
-        </p>
+<!-- Giao diện phong bì -->
+<main class="stage" id="stage">
 
-    </section>
-    <main class="stage" id="stage">
+<h1 class="title">A letter from my heart</h1>
+<p class="sub">Written just for you</p>
 
-        <h1 class="title">
-            A letter from my heart
-        </h1>
+<div class="env" id="env">
 
-        <p class="sub">
-            Written just for you
-        </p>
+    <div class="body"></div>
 
+    <div class="flap">
+        <i></i>
+    </div>
 
-        <div class="env" id="env">
+    <button class="seal" id="seal">&#10084;</button>
 
-            <div class="body"></div>
-            <div class="flap">
-                <i></i>
+    <!-- Lá thư -->
+    <section class="card" id="card">
+        <div class="sheet">
+
+            <div class="bar">
+                <span id="pg">PAGE 1 OF 3</span>
+                <button class="x" id="x">&times;</button>
             </div>
 
-            <!-- TRÁI TIM NIÊM PHONG -->
-            <button class="seal" id="seal">
-                ❤
-            </button>
+            <div class="page" id="page"></div>
 
-
-            <!-- LÁ THƯ -->
-            <section class="card" id="card">
-
-                <div class="sheet">
-
-                    <div class="bar">
-
-                        <span id="pg">
-                            PAGE 1 OF 3
-                        </span>
-
-                        <button class="x" id="x">
-                            ×
-                        </button>
-
-                    </div>
-
-
-                    <div class="page" id="page"></div>
-
-                    <div class="nav">
-
-                        <button class="btn" id="prev">
-                            ← Previous
-                        </button>
-
-                        <button class="btn" id="close">
-                            ❤ Close
-                        </button>
-
-                        <button class="btn primary" id="next">
-                            Next page →
-                        </button>
-
-                    </div>
-
-                    <button class="photo" id="photo">
-
-                        <div id="pic"></div>
-
-                        <span>
-                            forever & always ❤️
-                        </span>
-
-                    </button>
-
-                    <input
-                        type="file"
-                        id="file"
-                        accept="image/*"
-                        hidden
-                    >
-
-                </div>
-
-            </section>
+            <div class="nav">
+                <button class="btn" id="prev">&larr; Previous</button>
+                <button class="btn" id="close">Close</button>
+                <button class="btn primary" id="next">Next page &rarr;</button>
+            </div>
 
         </div>
+    </section>
 
+    <!-- Ảnh Polaroid: gắn với phong bì, không dính vào lá thư -->
+    <div class="photo" id="photo" role="button" tabindex="0" aria-label="Open photo">
+        <div id="pic">&#10084;</div>
+        <span>forever &amp; always &#10084;</span>
+    </div>
 
-        <p class="hint" id="hint">
-            Tap the seal to open
-        </p>
+    <input type="file" id="file" accept="image/*" hidden>
 
-    </main>
+</div>
 
+<p class="hint" id="hint">Tap the seal to open</p>
 
-    <script src="script.js"></script>
+</main>
 
+<script src="script.js"></script>
 </body>
 </html>
-
