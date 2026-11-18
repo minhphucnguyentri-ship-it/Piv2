@@ -1,552 +1,491 @@
-
 :root {
-    --bg: #0a0006;
-    --crim: #8a0b34;
-    --crim2: #5e0722;
-    --gold: #e6c36a;
-    --paper: #fbf8f4;
-    --ink: #4a3b3b;
-    --rose: #f3a6bf;
+    --bg:#0a0006;
+    --crim:#8a0b34;
+    --crim2:#5e0722;
+    --gold:#e6c36a;
+    --paper:#fbf8f4;
+    --ink:#4a3b3b;
+    --rose:#f3a6bf;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing:border-box; }
 
-html, body {
-    height: 100%;
-}
+html,body { height:100%; margin:0; }
 
 body {
-    background: radial-gradient(
-        90% 60% at 50% 45%,
-        #2a0212,
-        var(--bg)
-    );
-    font-family: "Cormorant Garamond", Georgia, serif;
-    color: var(--rose);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    background:radial-gradient(90% 60% at 50% 45%,#2a0212,var(--bg));
+    font-family:"Cormorant Garamond",Georgia,serif;
+    color:var(--rose);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
 }
 
 #petals {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 20;
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
 }
 
 .title {
-    font-family: "Great Vibes", cursive;
-    font-size: clamp(34px, 8vw, 52px);
-    color: var(--gold);
-    margin: 0;
-    text-align: center;
+    font-family:"Great Vibes",cursive;
+    font-size:clamp(34px,8vw,52px);
+    color:var(--gold);
+    margin:0;
+    text-align:center;
 }
 
 .sub {
-    font-size: 13px;
-    letter-spacing: .25em;
-    color: #d7a8b4;
-    margin: 2px 0 26px;
-    text-align: center;
+    font-size:13px;
+    letter-spacing:.25em;
+    color:#d7a8b4;
+    margin:2px 0 26px;
+    text-align:center;
 }
 
 .env {
-    position: relative;
-    width: min(92vw, 430px);
-    aspect-ratio: 1.5 / 1;
-    perspective: 900px;
-    z-index: 1;
-    overflow: visible;
+    position:relative;
+    width:min(92vw,430px);
+    aspect-ratio:1.5/1;
+    perspective:900px;
+    z-index:1;
+    overflow:visible;
 }
 
 .body {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        160deg,
-        #a10f3e,
-        var(--crim2)
-    );
-    border-radius: 6px;
-    box-shadow:
-        0 20px 60px #000c,
-        0 0 90px #8a0b3433;
-    overflow: hidden;
-    z-index: 1;
+    position:absolute;
+    inset:0;
+    background:linear-gradient(160deg,#a10f3e,var(--crim2));
+    border-radius:6px;
+    box-shadow:0 20px 60px #000c,0 0 90px #8a0b3433;
+    overflow:hidden;
+    z-index:1;
 }
 
 .body::before,
 .body::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    width: 50%;
-    height: 100%;
+    content:"";
+    position:absolute;
+    bottom:0;
+    width:50%;
+    height:100%;
 }
 
 .body::before {
-    left: 0;
-    background: linear-gradient(
-        to top right,
-        #00000030 49.5%,
-        transparent 50%
-    );
+    left:0;
+    background:linear-gradient(to top right,#00000030 49.5%,transparent 50%);
 }
 
 .body::after {
-    right: 0;
-    background: linear-gradient(
-        to top left,
-        #00000030 49.5%,
-        transparent 50%
-    );
+    right:0;
+    background:linear-gradient(to top left,#00000030 49.5%,transparent 50%);
 }
 
+/* Nắp phong bì */
 .flap {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 58%;
-    transform-origin: top center;
-    transition:
-        transform .9s ease,
-        z-index 0s .45s;
-    z-index: 5;
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:58%;
+    transform-origin:top center;
+    transition:transform .9s ease,z-index 0s .45s;
+    z-index:5;
 }
 
 .flap i {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        #b01244,
-        #7d0a2e
-    );
-    clip-path: polygon(
-        0 0,
-        100% 0,
-        50% 100%
-    );
+    position:absolute;
+    inset:0;
+    background:linear-gradient(#b01244,#7d0a2e);
+    clip-path:polygon(0 0,100% 0,50% 100%);
+    filter:drop-shadow(0 4px 6px #0006);
 }
 
 .env.open .flap {
-    transform: rotateX(180deg);
-    z-index: 0;
+    transform:rotateX(180deg);
+    z-index:0;
 }
 
+/* Trái tim niêm phong */
 .seal {
-    position: absolute;
-    left: 50%;
-    top: 58%;
-    width: 54px;
-    height: 54px;
-    margin: -27px 0 0 -27px;
-    border-radius: 50%;
-    border: 0;
-    background: radial-gradient(
-        circle at 35% 30%,
-        #ff5c8d,
-        #b3123f 70%
-    );
-    color: white;
-    font-size: 22px;
-    cursor: pointer;
-    z-index: 6;
-    box-shadow:
-        0 6px 16px #000a,
-        inset 0 -3px 6px #0005;
-    animation: pulse 2s ease-in-out infinite;
-    transition: opacity .4s;
+    position:absolute;
+    left:50%;
+    top:58%;
+    width:54px;
+    height:54px;
+    margin:-27px 0 0 -27px;
+    border-radius:50%;
+    border:0;
+    background:radial-gradient(circle at 35% 30%,#ff5c8d,#b3123f 70%);
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+    z-index:6;
+    box-shadow:0 6px 16px #000a,inset 0 -3px 6px #0005;
+    animation:pulse 2s ease-in-out infinite;
+    transition:opacity .4s;
 }
 
 .env.open .seal {
-    opacity: 0;
-    pointer-events: none;
-    animation: none;
+    opacity:0;
+    pointer-events:none;
+    animation:none;
 }
 
 @keyframes pulse {
-    50% {
-        transform: scale(1.08);
-    }
+    50% { transform:scale(1.08); }
 }
 
+.hint {
+    margin-top:30px;
+    font-style:italic;
+    font-size:15px;
+    color:#c78a9c;
+    position:relative;
+    z-index:1;
+    transition:opacity .4s;
+}
+
+/* Lá thư */
 .card {
-    position: absolute;
-    left: 50%;
-    bottom: 12px;
-    width: min(96vw, 470px);
-    transform: translate(-50%, 0) scale(.78);
-    opacity: 0;
-    pointer-events: none;
-    transition:
-        transform 1.2s ease,
-        opacity .35s ease;
-    z-index: 2;
+    position:absolute;
+    left:50%;
+    bottom:12px;
+    width:min(96vw,470px);
+    transform:translate(-50%,0) scale(.78);
+    opacity:0;
+    pointer-events:none;
+    transition:transform 1s ease,opacity .35s ease;
+    z-index:0; /* nằm sau thân phong bì để trông như đang rút ra */
 }
 
 .sheet {
-    background: var(--paper);
-    color: var(--ink);
-    border-radius: 8px;
-    padding: 14px 20px 16px;
-    box-shadow: 0 24px 70px #000c;
-    position: relative;
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:8px;
+    padding:14px 20px 16px;
+    box-shadow:0 24px 70px #000c;
+    position:relative;
 }
 
 .bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Inter, system-ui, sans-serif;
-    font-size: 11px;
-    letter-spacing: .14em;
-    color: #8b7b7b;
-    position: relative;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eadfdc;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:Inter,system-ui,sans-serif;
+    font-size:11px;
+    letter-spacing:.14em;
+    color:#8b7b7b;
+    position:relative;
+    padding-bottom:10px;
+    border-bottom:1px solid #eadfdc;
 }
 
 .x {
-    position: absolute;
-    right: -6px;
-    top: -4px;
-    background: none;
-    border: 0;
-    font-size: 20px;
-    color: #8b7b7b;
-    cursor: pointer;
+    position:absolute;
+    right:-6px;
+    top:-4px;
+    background:none;
+    border:0;
+    font-size:20px;
+    color:#8b7b7b;
+    cursor:pointer;
 }
 
 .page {
-    min-height: clamp(170px, 25vh, 220px);
-    padding: 14px 12px 8px 0;
-    border-right: 3px solid var(--gold);
-    margin-top: 6px;
-    transition: opacity .25s;
+    min-height:clamp(170px,25vh,220px);
+    padding:14px 12px 8px 0;
+    border-right:3px solid var(--gold);
+    margin-top:6px;
+    transition:opacity .25s;
 }
 
-.page.out {
-    opacity: 0;
-}
+.page.out { opacity:0; }
 
 .page h2 {
-    font-family: "Great Vibes", cursive;
-    font-weight: 400;
-    color: var(--crim);
-    font-size: 36px;
-    margin: 0 0 6px;
+    font-family:"Great Vibes",cursive;
+    font-weight:400;
+    color:var(--crim);
+    font-size:36px;
+    margin:0 0 6px;
 }
 
 .page p {
-    margin: 0;
-    font-size: 19px;
-    line-height: 1.5;
-    padding-right: 12px;
+    margin:0;
+    font-size:19px;
+    line-height:1.5;
+    padding-right:12px;
 }
 
 .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 12px;
-    gap: 8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:12px;
+    gap:8px;
 }
 
 .btn {
-    font-family: Inter, system-ui, sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: 999px;
-    padding: 8px 14px;
-    cursor: pointer;
-    border: 1px solid #e2cfd3;
-    background: white;
-    color: var(--crim);
+    font-family:Inter,system-ui,sans-serif;
+    font-size:12px;
+    font-weight:600;
+    border-radius:999px;
+    padding:8px 14px;
+    cursor:pointer;
+    border:1px solid #e2cfd3;
+    background:white;
+    color:var(--crim);
 }
 
 .btn.primary {
-    background: var(--crim);
-    color: white;
-    border-color: var(--crim);
+    background:var(--crim);
+    color:white;
+    border-color:var(--crim);
 }
 
 .btn:disabled {
-    opacity: .4;
-    cursor: default;
+    opacity:.4;
+    cursor:default;
 }
 
+/* Ảnh Polaroid */
 .photo {
-    position: absolute;
-    right: 8px;
-    bottom: -112px;
-    width: 104px;
-    background: white;
-    padding: 7px 7px 18px;
-    transform: rotate(5deg);
-    box-shadow: 0 10px 26px #0008;
-    border: 0;
-    cursor: pointer;
-    text-align: center;
-    font-family: "Great Vibes", cursive;
-    font-size: 13px;
-    color: var(--ink);
-    z-index: 2;
+    position:absolute;
+    right:-2px;
+    bottom:-95px;
+    width:104px;
+    --dx:0px;
+    --dy:0px;
+    --s:1;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s ease,transform .75s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease;
+    background:white;
+    padding:7px 7px 18px;
+    transform:translate(0,0) rotate(5deg) scale(1);
+    box-shadow:0 10px 26px #0008,0 0 0 0 rgba(10,0,6,0);
+    border:0;
+    cursor:pointer;
+    text-align:center;
+    font-family:"Great Vibes",cursive;
+    font-size:13px;
+    color:var(--ink);
+    z-index:8;
+}
+
+/* Ảnh hiện ra sau khi thư đã đặt xong, ẩn đi khi đóng thư */
+.env.letter-up .photo {
+    opacity:1;
+    pointer-events:auto;
+    transition:opacity .6s ease 1.3s,transform .75s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease;
+}
+
+.env.letter-up.closing .photo {
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .3s ease,transform .75s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease;
+}
+
+/* Bấm vào ảnh: bay ra giữa màn hình, phóng to, nền xung quanh tối lại */
+.photo.zoom {
+    transform:translate(var(--dx),var(--dy)) rotate(-2deg) scale(var(--s));
+    box-shadow:0 10px 26px #0008,0 0 0 150vmax rgba(10,0,6,.78);
+    cursor:zoom-out;
 }
 
 .photo div {
-    height: 84px;
-    background-image: url("xinchao.webp");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    color: white;
+    height:84px;
+    background:linear-gradient(135deg,#f3a6bf,#8a0b34);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    color:white;
+    background-size:cover;
+    background-position:center;
 }
 
 .photo span {
-    display: block;
-    margin-top: 3px;
+    display:block;
+    margin-top:3px;
 }
 
+/* Màn hình trái tim ban đầu */
 .intro {
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 22px;
-    background: radial-gradient(
-        ellipse at center,
-        #350518 0%,
-        #16000a 52%,
-        #0a0006 100%
-    );
-    transition:
-        opacity .85s ease,
-        visibility .85s ease;
+    position:fixed;
+    inset:0;
+    z-index:10;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:22px;
+    background:radial-gradient(ellipse at center,#350518 0%,#16000a 52%,#0a0006 100%);
+    transition:opacity .85s ease,visibility .85s ease;
 }
 
 .intro.hide {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
 }
 
 .big-heart {
-    width: clamp(150px, 42vw, 250px);
-    aspect-ratio: 1;
-    border: 0;
-    background: transparent;
-    color: #ff3f79;
-    cursor: pointer;
-    position: relative;
-    display: grid;
-    place-items: center;
-    filter:
-        drop-shadow(0 0 12px #ff1e62aa)
-        drop-shadow(0 0 34px #e6004f77);
-    animation: heartBeat 1.35s ease-in-out infinite;
+    width:clamp(150px,42vw,250px);
+    aspect-ratio:1;
+    border:0;
+    background:transparent;
+    color:#ff3f79;
+    cursor:pointer;
+    position:relative;
+    display:grid;
+    place-items:center;
+    filter:drop-shadow(0 0 12px #ff1e62aa) drop-shadow(0 0 34px #e6004f77);
+    animation:heartBeat 1.35s ease-in-out infinite;
 }
 
 .big-heart::before,
 .big-heart::after {
-    content: "";
-    position: absolute;
-    inset: 12%;
-    border: 1px solid #ff8eae55;
-    border-radius: 50%;
-    animation: heartRipple 2.8s ease-out infinite;
+    content:"";
+    position:absolute;
+    inset:12%;
+    border:1px solid #ff8eae55;
+    border-radius:50%;
+    animation:heartRipple 2.8s ease-out infinite;
 }
 
-.big-heart::after {
-    animation-delay: 1.4s;
-}
+.big-heart::after { animation-delay:1.4s; }
 
 .big-heart span {
-    font-family: Georgia, serif;
-    font-size: clamp(130px, 37vw, 220px);
-    line-height: 1;
-    color: #ed245f;
-    text-shadow:
-        0 0 8px #ff9ab8,
-        0 0 24px #ff2468,
-        0 0 55px #c90049;
+    display:block;
+    font-family:Georgia,serif;
+    font-size:clamp(130px,37vw,220px);
+    line-height:1;
+    color:#ed245f;
+    text-shadow:0 0 8px #ff9ab8,0 0 24px #ff2468,0 0 55px #c90049;
 }
 
 .intro-hint {
-    margin: 0;
-    color: #e8a0b5;
-    font-size: 14px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    animation: hintGlow 2s ease-in-out infinite;
+    margin:0;
+    color:#e8a0b5;
+    font-size:14px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    animation:hintGlow 2s ease-in-out infinite;
 }
 
 .stage {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(.97);
-    transition:
-        opacity .9s ease,
-        transform .9s ease,
-        visibility .9s;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    visibility:hidden;
+    transform:scale(.97);
+    transition:opacity .9s ease,transform .9s ease,visibility .9s;
 }
 
 .stage.ready {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1);
+    opacity:1;
+    visibility:visible;
+    transform:scale(1);
 }
 
 @keyframes heartBeat {
-    0%, 100% {
-        transform: scale(1);
-    }
-    14% {
-        transform: scale(1.09);
-    }
-    28% {
-        transform: scale(1);
-    }
-    42% {
-        transform: scale(1.06);
-    }
-    56% {
-        transform: scale(1);
-    }
+    0%,100% {transform:scale(1)}
+    14% {transform:scale(1.09)}
+    28% {transform:scale(1)}
+    42% {transform:scale(1.06)}
+    56% {transform:scale(1)}
 }
 
 @keyframes heartRipple {
-    0% {
-        transform: scale(.65);
-        opacity: .65;
-    }
-    100% {
-        transform: scale(1.8);
-        opacity: 0;
-    }
+    0% { transform:scale(.65); opacity:.65; }
+    100% { transform:scale(1.8); opacity:0; }
 }
 
 @keyframes hintGlow {
-    0%, 100% {
-        opacity: .55;
-    }
-    50% {
-        opacity: 1;
-    }
+    0%,100% {opacity:.55}
+    50% {opacity:1}
 }
 
+/* Trình tự animation phong bì */
 .stage.letter-open .title,
 .stage.letter-open .sub,
 .stage.letter-open .hint {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .35s ease;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .35s ease;
 }
 
+/* Giai đoạn 3: Lá thư trượt ra khỏi phong bì */
 .env.letter-out .card {
-    opacity: 1;
-    transform: translate(-50%, -120px) scale(.82);
+    opacity:1;
+    transform:translate(-50%,-120px) scale(.82);
 }
 
+/* Giai đoạn 5: Thư rút hẳn ra khỏi phong bì, rồi hạ xuống nằm đè lên phong bì */
 .env.letter-up .card {
-    opacity: 1;
-    transform: translate(-50%, -270px) scale(1);
-    z-index: 7;
-    pointer-events: auto;
+    --final-y:-50px;   /* vị trí cuối: càng gần 0 thì thư càng nằm sâu trong phong bì */
+    --final-s:1;
+    opacity:1;
+    transform:translate(-50%,var(--final-y)) scale(var(--final-s));
+    pointer-events:auto;
+    z-index:7;
+    animation:letterUp 1.8s ease-in-out forwards;
+}
+
+.env.letter-up.closing .card {
+    animation:letterDown 1.8s ease-in-out forwards;
+}
+
+@keyframes letterUp {
+    0%   { transform:translate(-50%,-120px) scale(.82); z-index:0; }
+    49%  { z-index:0; }
+    /* thư đã cao hơn miệng phong bì -> chuyển lên lớp trên cùng */
+    50%  { transform:translate(-50%,-290px) scale(.9); z-index:7; }
+    100% { transform:translate(-50%,var(--final-y)) scale(var(--final-s)); z-index:7; }
+}
+
+@keyframes letterDown {
+    0%   { transform:translate(-50%,var(--final-y)) scale(var(--final-s)); z-index:7; }
+    50%  { transform:translate(-50%,-290px) scale(.9); z-index:7; }
+    51%  { z-index:0; }
+    100% { transform:translate(-50%,-120px) scale(.82); z-index:0; }
 }
 
 .env.letter-up .seal {
-    opacity: 0;
-    pointer-events: none;
+    opacity:0;
+    pointer-events:none;
 }
 
-@media (max-width: 520px) {
-    .env {
-        width: min(92vw, 390px);
-    }
-
-    .card {
-        width: calc(100vw - 12px);
-    }
-
-    .sheet {
-        padding: 13px 17px 15px;
-    }
-
-    .page {
-        min-height: clamp(165px, 25vh, 205px);
-    }
-
-    .page h2 {
-        font-size: 34px;
-    }
-
-    .page p {
-        font-size: 18px;
-        line-height: 1.48;
-    }
-
-    .nav {
-        gap: 5px;
-        margin-top: 10px;
-    }
-
-    .btn {
-        font-size: 11px;
-        padding: 8px 11px;
-    }
-
-    .photo {
-        right: 8px;
-        bottom: -108px;
-        width: 96px;
-    }
-
-    .env.letter-up .card {
-        transform: translate(-50%, -245px) scale(.94);
-    }
+@media(max-width:520px) {
+    .env { width:min(92vw,390px); }
+    .card { width:calc(100vw - 12px); }
+    .sheet { padding:13px 17px 15px; }
+    .page { min-height:clamp(165px,25vh,205px); }
+    .page h2 { font-size:34px; }
+    .page p { font-size:18px; line-height:1.48; }
+    .nav { gap:5px; margin-top:10px; }
+    .btn { font-size:11px; padding:8px 11px; }
+    .photo { right:-2px; bottom:-90px; width:96px; }
+    .env.letter-up .card { --final-y:-50px; --final-s:.94; }
 }
 
-@media (max-height: 650px) {
-    .page {
-        min-height: clamp(125px, 22vh, 180px);
-    }
-
-    .photo {
-        bottom: -88px;
-        width: 88px;
-    }
-
-    .env.letter-up .card {
-        transform: translate(-50%, -215px) scale(.88);
-    }
+@media(max-height:650px) {
+    .page { min-height:clamp(125px,22vh,180px); }
+    .photo { bottom:-80px; width:88px; }
+    .env.letter-up .card { --final-y:-40px; --final-s:.88; }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media(prefers-reduced-motion:reduce) {
     * {
-        transition: none !important;
-        animation: none !important;
+        transition:none!important;
+        animation:none!important;
     }
 }
-
