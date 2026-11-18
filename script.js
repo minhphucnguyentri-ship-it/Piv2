@@ -1,364 +1,334 @@
+(function(){
 
-(function () {
-
-    var PAGES = [
-        {
-            h: "My Dearest,",
-            t: "In a world that moves far too fast, you have become my favorite pause. I still remember the exact moment you entered my life — it felt as though all the background noise of the world quietly vanished, leaving only the warmth of your presence."
-        },
-        {
-            h: "",
-            t: "You make ordinary days feel like small celebrations. The way you laugh at your own jokes, the way you hold my hand without thinking — these are the things I carry with me, long after the day is done."
-        },
-        {
-            h: "Forever yours,",
-            t: "I don’t have grand words big enough for what you mean to me, so I’ll say it plainly: thank you for being you, and for letting me love you. Whatever comes next, I choose you — today, tomorrow, and always."
-        }
-    ];
-
-
-    var i = 0;
-
-    var env = document.getElementById("env");
-    var page = document.getElementById("page");
-
-    var intro = document.getElementById("intro");
-    var stage = document.getElementById("stage");
-
-    var pg = document.getElementById("pg");
-    var prev = document.getElementById("prev");
-    var next = document.getElementById("next");
-    var hint = document.getElementById("hint");
-
-
-    document.getElementById("start").onclick = function () {
-
-        intro.classList.add("hide");
-
-        stage.classList.add("ready");
-
-    };
-
-
-    function render() {
-
-        page.classList.add("out");
-
-        setTimeout(function () {
-
-            var p = PAGES[i];
-
-            page.innerHTML = "";
-
-            if (p.h) {
-
-                var h = document.createElement("h2");
-
-                h.textContent = p.h;
-
-                page.appendChild(h);
-
-            }
-
-            var t = document.createElement("p");
-
-            t.textContent = p.t;
-
-            page.appendChild(t);
-
-
-            pg.textContent =
-                "PAGE " + (i + 1) + " OF " + PAGES.length;
-
-            prev.disabled = i === 0;
-
-            next.disabled = i === PAGES.length - 1;
-
-            page.classList.remove("out");
-
-        }, 180);
-
+// Nội dung thư
+var PAGES = [
+    {
+        h:"My Dearest,",
+        t:"In a world that moves far too fast, you have become my favorite pause. I still remember the exact moment you entered my life — it felt as though all the background noise of the world quietly vanished, leaving only the warmth of your presence."
+    },
+    {
+        h:"",
+        t:"You make ordinary days feel like small celebrations. The way you laugh at your own jokes, the way you hold my hand without thinking — these are the things I carry with me, long after the day is done."
+    },
+    {
+        h:"Forever yours,",
+        t:"I don’t have grand words big enough for what you mean to me, so I’ll say it plainly: thank you for being you, and for letting me love you. Whatever comes next, I choose you — today, tomorrow, and always."
     }
+];
 
+// Thời gian (ms) của từng bước
+var T_FLAP  = 900;   // 1. nắp phong bì mở (khớp transition .9s)
+var T_WAIT1 = 900;   // 2. chờ 0,9 giây
+var T_SLIDE = 1000;  // 3. lá thư trượt ra (khớp transition 1s)
+var T_WAIT2 = 0;     // 4. không chờ: thư trượt xong là đi lên ngay
+var T_UP    = 1800;  // 5. thư rút ra rồi hạ xuống đè lên phong bì (khớp animation 1.8s)
 
-    function open() {
+var i = 0;
 
-        if (env.classList.contains("open")) return;
+var env = document.getElementById('env');
+var card = document.getElementById('card');
+var page = document.getElementById('page');
 
-        env.classList.add("open");
+var intro = document.getElementById('intro');
+var stage = document.getElementById('stage');
 
-        stage.classList.add("letter-open");
+var pg = document.getElementById('pg');
+var prev = document.getElementById('prev');
+var next = document.getElementById('next');
+var hint = document.getElementById('hint');
 
-        hint.style.opacity = 0;
+// Bấm trái tim lớn
+document.getElementById('start').onclick = function(){
+    intro.classList.add('hide');
+    stage.classList.add('ready');
+};
 
-        i = 0;
+// Hiển thị nội dung trang
+function render(){
 
+    page.classList.add('out');
+
+    setTimeout(function(){
+
+        var p = PAGES[i];
+
+        page.innerHTML = '';
+
+        if(p.h){
+            var h = document.createElement('h2');
+            h.textContent = p.h;
+            page.appendChild(h);
+        }
+
+        var t = document.createElement('p');
+        t.textContent = p.t;
+        page.appendChild(t);
+
+        pg.textContent = 'PAGE ' + (i+1) + ' OF ' + PAGES.length;
+
+        prev.disabled = i === 0;
+        next.disabled = i === PAGES.length-1;
+
+        page.classList.remove('out');
+
+    },180);
+}
+
+// Mở phong bì theo từng giai đoạn
+function open(){
+
+    if(env.classList.contains('open')) return;
+
+    env.classList.add('open');            // 1. Nắp phong bì mở
+    stage.classList.add('letter-open');
+
+    hint.style.opacity = 0;
+
+    i = 0;
+    render();
+
+    // 2. Chờ 0,9 giây sau khi nắp mở xong
+    setTimeout(function(){
+
+        env.classList.add('letter-out');  // 3. Lá thư trượt ra
+
+        // 4. Chờ 1 giây sau khi thư trượt xong
+        setTimeout(function(){
+
+            env.classList.add('letter-up'); // 5. Lá thư đi lên trên phong bì
+
+            setTimeout(function(){
+                next.focus();
+            }, T_UP);
+
+        }, T_SLIDE + T_WAIT2);
+
+    }, T_FLAP + T_WAIT1);
+}
+
+// Đóng thư (chạy ngược lại)
+function close(){
+
+    zoomOut();
+
+    env.classList.add('closing');          // thư nhấc lên rồi hạ vào lại phong bì
+
+    setTimeout(function(){
+
+        env.classList.remove('letter-up','closing');
+        env.classList.remove('letter-out');
+
+        setTimeout(function(){
+
+            env.classList.remove('open');
+            stage.classList.remove('letter-open');
+
+            hint.style.opacity = 1;
+
+        }, T_SLIDE);
+
+    }, T_UP);
+}
+
+// Sự kiện nút
+document.getElementById('seal').onclick = open;
+
+document.getElementById('close').onclick = close;
+document.getElementById('x').onclick = close;
+
+prev.onclick = function(){
+    if(i > 0){
+        i--;
         render();
+    }
+};
 
-        setTimeout(function () {
-            env.classList.add("letter-out");
+next.onclick = function(){
+    if(i < PAGES.length-1){
+        i++;
+        render();
+    }
+};
 
+// Điều khiển bằng bàn phím
+document.addEventListener('keydown',function(e){
 
-            setTimeout(function () {
-
-                env.classList.add("letter-up");
-
-
-                setTimeout(function () {
-
-                    next.focus();
-
-                }, 900);
-
-            }, 1200);
-
-        }, 900);
-
+    if(e.key === 'Escape' && photo.classList.contains('zoom')){
+        zoomOut();
+        return;
     }
 
+    if(!env.classList.contains('letter-up')) return;
 
-    function close() {
+    if(e.key === 'Escape') close();
 
-        env.classList.remove("letter-up");
+    if(e.key === 'ArrowRight') next.click();
 
+    if(e.key === 'ArrowLeft') prev.click();
 
-        setTimeout(function () {
+});
 
-            env.classList.remove("letter-out");
+// Tải ảnh Polaroid
+var file = document.getElementById('file');
+var pic = document.getElementById('pic');
 
+var photo = document.getElementById('photo');
+var photoBusy = false;
 
-            setTimeout(function () {
+// Phóng to: ảnh bay ra giữa màn hình
+function zoomIn(){
 
-                env.classList.remove("open");
+    var w = photo.offsetWidth;
+    var h = photo.offsetHeight;
+    var r = photo.getBoundingClientRect();
 
-                stage.classList.remove("letter-open");
+    var cx = r.left + r.width/2;
+    var cy = r.top + r.height/2;
 
-                hint.style.opacity = 1;
+    var s = Math.min(320/w, innerWidth*.82/w, innerHeight*.7/h);
 
-            }, 900);
+    photo.style.setProperty('--dx',(innerWidth/2 - cx) + 'px');
+    photo.style.setProperty('--dy',(innerHeight/2 - 24 - cy) + 'px');
+    photo.style.setProperty('--s',s);
 
-        }, 1200);
+    photo.classList.add('zoom');
+}
 
+// Thu nhỏ: ảnh quay về chỗ cũ trên phong bì
+function zoomOut(){
+    photo.classList.remove('zoom');
+}
+
+photo.onclick = function(){
+
+    if(photoBusy) return;
+
+    photoBusy = true;
+    setTimeout(function(){ photoBusy = false; },760);
+
+    if(photo.classList.contains('zoom')) zoomOut();
+    else zoomIn();
+};
+
+photo.addEventListener('keydown',function(e){
+    if(e.target === photo && (e.key === 'Enter' || e.key === ' ')){
+        e.preventDefault();
+        photo.click();
     }
+});
 
+// Bấm ra ngoài ảnh để thu nhỏ lại
+document.addEventListener('click',function(e){
 
-    document.getElementById("seal").onclick = open;
+    if(!photo.classList.contains('zoom') || photoBusy) return;
 
-    document.getElementById("close").onclick = close;
+    if(e.target.closest('#photo') || e.target === file) return;
 
-    document.getElementById("x").onclick = close;
+    zoomOut();
+});
 
-    prev.onclick = function () {
+addEventListener('resize',zoomOut);
 
-        if (i > 0) {
+file.onchange = function(){
 
-            i--;
+    var f = file.files[0];
 
-            render();
+    if(!f) return;
 
-        }
+    var r = new FileReader();
 
+    r.onload = function(){
+        pic.style.backgroundImage = 'url(' + r.result + ')';
+        pic.textContent = '';
     };
 
+    r.readAsDataURL(f);
+};
 
-    next.onclick = function () {
+// Hiệu ứng cánh hoa rơi
+var cv = document.getElementById('petals');
+var ctx = cv.getContext('2d');
 
-        if (i < PAGES.length - 1) {
+var W,H;
+var dpr = Math.min(window.devicePixelRatio || 1,2);
+var pt = [];
 
-            i++;
+function size(){
 
-            render();
+    W = innerWidth;
+    H = innerHeight;
 
-        }
+    cv.width = W*dpr;
+    cv.height = H*dpr;
 
-    };
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+}
 
+size();
+addEventListener('resize',size);
 
-    document.addEventListener("keydown", function (e) {
+for(var k=0;k<38;k++){
 
-        if (!env.classList.contains("letter-up")) return;
-
-        if (e.key === "Escape") close();
-
-        if (e.key === "ArrowRight") next.click();
-
-        if (e.key === "ArrowLeft") prev.click();
-
+    pt.push({
+        x:Math.random()*W,
+        y:Math.random()*H,
+        s:4+Math.random()*7,
+        v:12+Math.random()*28,
+        d:Math.random()*6,
+        r:Math.random()*6,
+        a:.15+Math.random()*.4
     });
 
+}
 
-    var file = document.getElementById("file");
+var still = matchMedia('(prefers-reduced-motion:reduce)').matches;
+var lt = 0;
 
-    var pic = document.getElementById("pic");
+function loop(n){
 
-    document.getElementById("photo").onclick = function () {
+    var dt = Math.min((n-lt)/1000 || .016,.05);
 
-        file.click();
+    lt = n;
 
-    };
+    ctx.clearRect(0,0,W,H);
 
-    file.onchange = function () {
+    for(var j=0;j<pt.length;j++){
 
-        var f = file.files[0];
+        var p = pt[j];
 
-        if (!f) return;
-
-        var r = new FileReader();
-
-        r.onload = function () {
-
-            pic.style.backgroundImage =
-                "url(" + r.result + ")";
-
-        };
-
-        r.readAsDataURL(f);
-
-    };
-
-
-    var cv = document.getElementById("petals");
-
-    var ctx = cv.getContext("2d");
-
-    var W, H;
-
-    var dpr = Math.min(
-        window.devicePixelRatio || 1,
-        2
-    );
-
-    var pt = [];
-
-
-    function size() {
-
-        W = innerWidth;
-
-        H = innerHeight;
-
-        cv.width = W * dpr;
-
-        cv.height = H * dpr;
-
-        ctx.setTransform(
-            dpr, 0, 0, dpr, 0, 0
-        );
-
-    }
-
-    size();
-
-    addEventListener("resize", size);
-
-    for (var k = 0; k < 38; k++) {
-
-        pt.push({
-
-            x: Math.random() * W,
-
-            y: Math.random() * H,
-
-            s: 4 + Math.random() * 7,
-
-            v: 12 + Math.random() * 28,
-
-            d: Math.random() * 6,
-
-            r: Math.random() * 6,
-
-            a: .15 + Math.random() * .4
-
-        });
-
-    }
-
-
-    var still = matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    var lt = 0;
-
-
-    function loop(n) {
-
-        var dt = Math.min(
-            (n - lt) / 1000 || .016,
-            .05
-        );
-
-        lt = n;
-
-        ctx.clearRect(0, 0, W, H);
-
-
-        for (var j = 0; j < pt.length; j++) {
-
-            var p = pt[j];
-
-
-            if (!still) {
-
-                p.y += p.v * dt;
-
-                p.x += Math.sin(
-                    n / 1500 + p.d
-                ) * 12 * dt;
-
-                p.r += dt;
-
-            }
-
-
-            if (p.y > H + 10) {
-
-                p.y = -10;
-
-                p.x = Math.random() * W;
-
-            }
-
-
-            ctx.save();
-
-            ctx.translate(p.x, p.y);
-
-            ctx.rotate(p.r);
-
-            ctx.fillStyle =
-                "rgba(200,30,80," + p.a + ")";
-
-
-            ctx.beginPath();
-
-            ctx.moveTo(0, p.s * .4);
-
-            ctx.bezierCurveTo(
-                -p.s, -p.s * .6,
-                -p.s * .2, -p.s,
-                0, -p.s * .3
-            );
-
-            ctx.bezierCurveTo(
-                p.s * .2, -p.s,
-                p.s, -p.s * .6,
-                0, p.s * .4
-            );
-
-            ctx.fill();
-
-            ctx.restore();
-
+        if(!still){
+            p.y += p.v*dt;
+            p.x += Math.sin(n/1500+p.d)*12*dt;
+            p.r += dt;
         }
 
+        if(p.y > H+10){
+            p.y = -10;
+            p.x = Math.random()*W;
+        }
 
-        requestAnimationFrame(loop);
+        ctx.save();
+
+        ctx.translate(p.x,p.y);
+        ctx.rotate(p.r);
+
+        ctx.fillStyle = 'rgba(200,30,80,'+p.a+')';
+
+        ctx.beginPath();
+
+        ctx.moveTo(0,p.s*.4);
+
+        ctx.bezierCurveTo(-p.s,-p.s*.6,-p.s,-p.s,0,-p.s*.3);
+        ctx.bezierCurveTo(p.s*.2,-p.s,p.s,-p.s*.6,0,p.s*.4);
+
+        ctx.fill();
+        ctx.restore();
 
     }
 
-
     requestAnimationFrame(loop);
+}
+
+requestAnimationFrame(loop);
 
 })();
-
