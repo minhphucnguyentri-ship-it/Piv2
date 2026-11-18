@@ -1,1 +1,127 @@
 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A Letter From My Heart ❤️</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <canvas id="petals"></canvas>
+    <section class="intro" id="intro">
+
+        <button class="big-heart" id="start">
+            <span>❤</span>
+        </button>
+
+        <p class="intro-hint">
+            Touch the heart to begin
+        </p>
+
+    </section>
+    <main class="stage" id="stage">
+
+        <h1 class="title">
+            A letter from my heart
+        </h1>
+
+        <p class="sub">
+            Written just for you
+        </p>
+
+
+        <div class="env" id="env">
+
+            <div class="body"></div>
+            <div class="flap">
+                <i></i>
+            </div>
+
+            <!-- TRÁI TIM NIÊM PHONG -->
+            <button class="seal" id="seal">
+                ❤
+            </button>
+
+
+            <!-- LÁ THƯ -->
+            <section class="card" id="card">
+
+                <div class="sheet">
+
+                    <div class="bar">
+
+                        <span id="pg">
+                            PAGE 1 OF 3
+                        </span>
+
+                        <button class="x" id="x">
+                            ×
+                        </button>
+
+                    </div>
+
+
+                    <div class="page" id="page"></div>
+
+                    <div class="nav">
+
+                        <button class="btn" id="prev">
+                            ← Previous
+                        </button>
+
+                        <button class="btn" id="close">
+                            ❤ Close
+                        </button>
+
+                        <button class="btn primary" id="next">
+                            Next page →
+                        </button>
+
+                    </div>
+
+                    <button class="photo" id="photo">
+
+                        <div id="pic"></div>
+
+                        <span>
+                            forever & always ❤️
+                        </span>
+
+                    </button>
+
+                    <input
+                        type="file"
+                        id="file"
+                        accept="image/*"
+                        hidden
+                    >
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <p class="hint" id="hint">
+            Tap the seal to open
+        </p>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+
