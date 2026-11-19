@@ -160,7 +160,7 @@ body {
     opacity:0;
     pointer-events:none;
     transition:transform 1s ease,opacity .35s ease;
-    z-index:0; /* nằm sau thân phong bì để trông như đang rút ra */
+    z-index:0;
 }
 
 .sheet {
@@ -277,11 +277,11 @@ body {
     z-index:8;
 }
 
-/* Ảnh hiện ra sau khi thư đã đặt xong, ẩn đi khi đóng thư */
+/* Ảnh hiện sau khi thư đặt xong */
 .env.letter-up .photo {
     opacity:1;
     pointer-events:auto;
-    transition:opacity .6s ease 1.3s,transform .75s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease;
+    transition:opacity .6s ease 1.7s,transform .75s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease;
 }
 
 .env.letter-up.closing .photo {
@@ -290,7 +290,7 @@ body {
     transition:opacity .3s ease,transform .75s cubic-bezier(.2,.8,.2,1),box-shadow .5s ease;
 }
 
-/* Bấm vào ảnh: bay ra giữa màn hình, phóng to, nền xung quanh tối lại */
+/* Phóng to ảnh */
 .photo.zoom {
     transform:translate(var(--dx),var(--dy)) rotate(-2deg) scale(var(--s));
     box-shadow:0 10px 26px #0008,0 0 0 150vmax rgba(10,0,6,.78);
@@ -307,6 +307,11 @@ body {
     color:white;
     background-size:cover;
     background-position:center;
+}
+
+/* Ảnh trong Polaroid */
+#pic {
+    /* DÁN DÒNG background-image BASE64 GỐC Ở ĐÂY */
 }
 
 .photo span {
@@ -414,7 +419,7 @@ body {
     50% {opacity:1}
 }
 
-/* Trình tự animation phong bì */
+/* Animation phong bì */
 .stage.letter-open .title,
 .stage.letter-open .sub,
 .stage.letter-open .hint {
@@ -423,40 +428,34 @@ body {
     transition:opacity .35s ease;
 }
 
-/* Giai đoạn 3: Lá thư trượt ra khỏi phong bì */
-.env.letter-out .card {
-    opacity:1;
-    transform:translate(-50%,-120px) scale(.82);
-}
-
-/* Giai đoạn 5: Thư rút hẳn ra khỏi phong bì, rồi hạ xuống nằm đè lên phong bì */
 .env.letter-up .card {
-    --final-y:-50px;   /* vị trí cuối: càng gần 0 thì thư càng nằm sâu trong phong bì */
+    --final-y:-50px;
     --final-s:1;
     opacity:1;
     transform:translate(-50%,var(--final-y)) scale(var(--final-s));
     pointer-events:auto;
     z-index:7;
-    animation:letterUp 1.8s ease-in-out forwards;
+    animation:letterOut 2s ease-in-out forwards;
 }
 
 .env.letter-up.closing .card {
-    animation:letterDown 1.8s ease-in-out forwards;
+    animation:letterIn 2s ease-in-out forwards;
 }
 
-@keyframes letterUp {
-    0%   { transform:translate(-50%,-120px) scale(.82); z-index:0; }
-    49%  { z-index:0; }
-    /* thư đã cao hơn miệng phong bì -> chuyển lên lớp trên cùng */
-    50%  { transform:translate(-50%,-290px) scale(.9); z-index:7; }
-    100% { transform:translate(-50%,var(--final-y)) scale(var(--final-s)); z-index:7; }
+@keyframes letterOut {
+    0%   { transform:translate(-50%,0) scale(.78); opacity:0; z-index:0; }
+    12%  { opacity:1; }
+    66%  { z-index:0; }
+    67%  { transform:translate(-50%,-290px) scale(.9); opacity:1; z-index:7; }
+    100% { transform:translate(-50%,var(--final-y)) scale(var(--final-s)); opacity:1; z-index:7; }
 }
 
-@keyframes letterDown {
-    0%   { transform:translate(-50%,var(--final-y)) scale(var(--final-s)); z-index:7; }
-    50%  { transform:translate(-50%,-290px) scale(.9); z-index:7; }
-    51%  { z-index:0; }
-    100% { transform:translate(-50%,-120px) scale(.82); z-index:0; }
+@keyframes letterIn {
+    0%   { transform:translate(-50%,var(--final-y)) scale(var(--final-s)); opacity:1; z-index:7; }
+    33%  { transform:translate(-50%,-290px) scale(.9); opacity:1; z-index:7; }
+    34%  { z-index:0; }
+    88%  { opacity:1; }
+    100% { transform:translate(-50%,0) scale(.78); opacity:0; z-index:0; }
 }
 
 .env.letter-up .seal {
