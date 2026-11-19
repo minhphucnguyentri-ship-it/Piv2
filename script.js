@@ -17,9 +17,9 @@ var PAGES = [
 ];
 
 // Thời gian (ms) của từng bước
-var T_FLAP  = 900;
-var T_WAIT1 = 500;
-var T_CARD  = 2000;
+var T_FLAP  = 900;   // 1. nắp phong bì mở (khớp transition .9s)
+var T_WAIT1 = 500;   // 2. chờ 0,5 giây
+var T_CARD  = 2000;  // 3+4+5. thư trượt ra + đi lên, một animation liền mạch (khớp animation 2s)
 
 var i = 0;
 
@@ -72,12 +72,12 @@ function render(){
     },180);
 }
 
-// Mở phong bì
+// Mở phong bì theo từng giai đoạn
 function open(){
 
     if(env.classList.contains('open')) return;
 
-    env.classList.add('open');
+    env.classList.add('open');            // 1. Nắp phong bì mở
     stage.classList.add('letter-open');
 
     hint.style.opacity = 0;
@@ -85,9 +85,10 @@ function open(){
     i = 0;
     render();
 
-    // Chờ sau khi nắp mở
+    // 2. Chờ 0,5 giây sau khi nắp mở xong
     setTimeout(function(){
 
+        // 3 + 4 + 5. Thư trượt ra rồi đi lên trên phong bì (một animation)
         env.classList.add('letter-up');
 
         setTimeout(function(){
@@ -97,12 +98,12 @@ function open(){
     }, T_FLAP + T_WAIT1);
 }
 
-// Đóng thư
+// Đóng thư (chạy ngược lại)
 function close(){
 
     zoomOut();
 
-    env.classList.add('closing');
+    env.classList.add('closing');          // thư hạ vào lại phong bì
 
     setTimeout(function(){
 
@@ -160,7 +161,7 @@ var pic = document.getElementById('pic');
 var photo = document.getElementById('photo');
 var photoBusy = false;
 
-// Phóng to ảnh
+// Phóng to: ảnh bay ra giữa màn hình
 function zoomIn(){
 
     var w = photo.offsetWidth;
@@ -179,7 +180,7 @@ function zoomIn(){
     photo.classList.add('zoom');
 }
 
-// Thu nhỏ ảnh
+// Thu nhỏ: ảnh quay về chỗ cũ trên phong bì
 function zoomOut(){
     photo.classList.remove('zoom');
 }
@@ -202,7 +203,7 @@ photo.addEventListener('keydown',function(e){
     }
 });
 
-// Bấm ra ngoài ảnh để thu nhỏ
+// Bấm ra ngoài ảnh để thu nhỏ lại
 document.addEventListener('click',function(e){
 
     if(!photo.classList.contains('zoom') || photoBusy) return;
