@@ -17,11 +17,9 @@ var PAGES = [
 ];
 
 // Thời gian (ms) của từng bước
-var T_FLAP  = 900;   // 1. nắp phong bì mở (khớp transition .9s)
-var T_WAIT1 = 900;   // 2. chờ 0,9 giây
-var T_SLIDE = 1000;  // 3. lá thư trượt ra (khớp transition 1s)
-var T_WAIT2 = 0;     // 4. không chờ: thư trượt xong là đi lên ngay
-var T_UP    = 1800;  // 5. thư rút ra rồi hạ xuống đè lên phong bì (khớp animation 1.8s)
+var T_FLAP  = 900;
+var T_WAIT1 = 500;
+var T_CARD  = 2000;
 
 var i = 0;
 
@@ -74,12 +72,12 @@ function render(){
     },180);
 }
 
-// Mở phong bì theo từng giai đoạn
+// Mở phong bì
 function open(){
 
     if(env.classList.contains('open')) return;
 
-    env.classList.add('open');            // 1. Nắp phong bì mở
+    env.classList.add('open');
     stage.classList.add('letter-open');
 
     hint.style.opacity = 0;
@@ -87,47 +85,34 @@ function open(){
     i = 0;
     render();
 
-    // 2. Chờ 0,9 giây sau khi nắp mở xong
+    // Chờ sau khi nắp mở
     setTimeout(function(){
 
-        env.classList.add('letter-out');  // 3. Lá thư trượt ra
+        env.classList.add('letter-up');
 
-        // 4. Chờ 1 giây sau khi thư trượt xong
         setTimeout(function(){
-
-            env.classList.add('letter-up'); // 5. Lá thư đi lên trên phong bì
-
-            setTimeout(function(){
-                next.focus();
-            }, T_UP);
-
-        }, T_SLIDE + T_WAIT2);
+            next.focus();
+        }, T_CARD);
 
     }, T_FLAP + T_WAIT1);
 }
 
-// Đóng thư (chạy ngược lại)
+// Đóng thư
 function close(){
 
     zoomOut();
 
-    env.classList.add('closing');          // thư nhấc lên rồi hạ vào lại phong bì
+    env.classList.add('closing');
 
     setTimeout(function(){
 
         env.classList.remove('letter-up','closing');
-        env.classList.remove('letter-out');
+        env.classList.remove('open');
+        stage.classList.remove('letter-open');
 
-        setTimeout(function(){
+        hint.style.opacity = 1;
 
-            env.classList.remove('open');
-            stage.classList.remove('letter-open');
-
-            hint.style.opacity = 1;
-
-        }, T_SLIDE);
-
-    }, T_UP);
+    }, T_CARD);
 }
 
 // Sự kiện nút
@@ -175,7 +160,7 @@ var pic = document.getElementById('pic');
 var photo = document.getElementById('photo');
 var photoBusy = false;
 
-// Phóng to: ảnh bay ra giữa màn hình
+// Phóng to ảnh
 function zoomIn(){
 
     var w = photo.offsetWidth;
@@ -194,7 +179,7 @@ function zoomIn(){
     photo.classList.add('zoom');
 }
 
-// Thu nhỏ: ảnh quay về chỗ cũ trên phong bì
+// Thu nhỏ ảnh
 function zoomOut(){
     photo.classList.remove('zoom');
 }
@@ -217,7 +202,7 @@ photo.addEventListener('keydown',function(e){
     }
 });
 
-// Bấm ra ngoài ảnh để thu nhỏ lại
+// Bấm ra ngoài ảnh để thu nhỏ
 document.addEventListener('click',function(e){
 
     if(!photo.classList.contains('zoom') || photoBusy) return;
@@ -318,7 +303,7 @@ function loop(n){
 
         ctx.moveTo(0,p.s*.4);
 
-        ctx.bezierCurveTo(-p.s,-p.s*.6,-p.s,-p.s,0,-p.s*.3);
+        ctx.bezierCurveTo(-p.s,-p.s*.6,-p.s*.2,-p.s,0,-p.s*.3);
         ctx.bezierCurveTo(p.s*.2,-p.s,p.s,-p.s*.6,0,p.s*.4);
 
         ctx.fill();
